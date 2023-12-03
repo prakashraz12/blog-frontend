@@ -1,0 +1,1 @@
+export const cloudinaryErrorMessage = "Something went wrong"
