@@ -3,93 +3,14 @@ import { Link } from "react-router-dom";
 import logo from "../imgs/logo.png";
 import AnimationWrapper from "./animation/animation.wrapper";
 import defaultBanner from "../imgs/blog banner.png";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useUploadImageMutation } from "../service/api/cloudinaryUpload.service";
-import toast from "react-hot-toast";
-import { cloudinaryErrorMessage } from "./form/form.config";
-import { loadingToast } from "../utils/toast.utils";
-import { useFormik } from "formik";
-import EditorJS from "@editorjs/editorjs";
-import { tools } from "../utils/blog.config";
 
-const BlogEditor = () => {
+const BlogEditor = ({
+  blogForm,
+  handleBannerChnage,
+  handlePublish
+}) => {
   //
-  const [bannerImage, setBannerImage] = useState(null);
-  //
-  const [imageUplaod, { isLoading: imageUploading, isSuccess, status }] =
-    useUploadImageMutation();
 
-  //
-  const blogForm = useFormik({
-    initialValues: {
-      title: "",
-      banner: "",
-      des: "",
-      content: [],
-    },
-  });
-
-  //
-  const handleBannerChnage = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setBannerImage(reader.result);
-      };
-    }
-  };
-
-  //
-  const handleImageUpload = async () => {
-    const formData = new FormData();
-    formData.append("file", bannerImage);
-    formData.append("upload_preset", "prakash-media");
-
-    const result = await imageUplaod(formData);
-    if (result.error) {
-      toast.error(cloudinaryErrorMessage);
-    }
-    if (result.data) {
-      blogForm.setFieldValue("banner", result.data.secure_url);
-    }
-  };
-
-  //
-  useEffect(() => {
-    if (bannerImage !== null) {
-      handleImageUpload();
-    }
-  }, [bannerImage]);
-
-  useEffect(() => {
-    let loadingToastId;
-
-    if (imageUploading) {
-      loadingToastId = loadingToast("uploading..");
-    } else if (isSuccess) {
-      toast.dismiss(loadingToastId);
-      setBannerImage(null);
-    }
-
-    return () => {
-      if (loadingToastId) {
-        toast.dismiss(loadingToastId);
-      }
-    };
-  }, [imageUploading, isSuccess]);
-
-  useEffect(() => {
-    let editor = new EditorJS({
-      holder: "text-editor",
-      data: "",
-      tools: tools,
-      placeholder: "What's On Your Mind?",
-    });
-  }, []);
   return (
     <>
       <nav className="navbar">
@@ -98,8 +19,9 @@ const BlogEditor = () => {
         </Link>
         <p className="max-md:hidden text-black line-clamp-1 w-full">New Blog</p>
         <div className="flex gap-4 ml-auto">
-          <button className="btn-dark py-2">Publish</button>
-          <button className="btn-light py-2">Save Draft</button>
+          <button className="btn-dark py-2" onClick={handlePublish}>
+            Publish
+          </button>
         </div>
       </nav>
 

@@ -124,3 +124,8 @@
 .cdx-settings-button[data-tune='stretched'] {
   display: none;
 }
+
+.backdrop_filter{
+    backdrop-filter: blur(10px);
+    background-color: red;
+}

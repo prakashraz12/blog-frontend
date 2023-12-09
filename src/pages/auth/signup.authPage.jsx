@@ -3,7 +3,6 @@ import SignUpForm from "../../components/form/signup.form";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
-  useGoogleAuthMutation,
   useSignUpMutation,
 } from "../../service/api/authApi.service";
 import { useDispatch, useSelector } from "react-redux";
