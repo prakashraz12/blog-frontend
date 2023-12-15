@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../imgs/logo.png";
 import AnimationWrapper from "./animation/animation.wrapper";
 import defaultBanner from "../imgs/blog banner.png";
+import QuillEditor from "./text-editor";
 
 const BlogEditor = ({
   blogForm,
@@ -56,8 +57,8 @@ const BlogEditor = ({
             ></textarea>
 
             <hr className="w-full opacity-10 my-5" />
+            <QuillEditor blogForm={blogForm}/>
 
-            <div id="text-editor" className="font-gelasio"></div>
           </div>
         </section>
       </AnimationWrapper>

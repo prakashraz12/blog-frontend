@@ -27,6 +27,7 @@ const HomePage = () => {
   const [hasMoreData, setHasMoreData] = useState(true);
   const [isMoreData, setIsMoreData] = useState(true);
   const [searchValue, setSearchValue] = useState(null);
+  const [searchKeywords, setSearchKeywords] = useState("");
   const [getBlogs, { data, isloading, isError, error, isSuccess }] =
     useGetBlogsMutation();
 
@@ -105,11 +106,17 @@ const HomePage = () => {
     setSearchValue(e.target.value);
   };
 
-  console.log(searchValue);
+  const handleSearchBar = (e) => {
+    e.preventDefault();
+    setSearchKeywords(e.target.value);
+  };
+
+  console.log(blogs);
   return (
     <>
       <Navbar
-        handleSearch={handleSearch}
+        searchKeywords={searchKeywords}
+        handleSearch={handleSearchBar}
         isSearchBoxOpen={isSearchBoxOpen}
         setIsSearchBoxOpen={setIsSearchBoxOpen}
       />
@@ -117,7 +124,7 @@ const HomePage = () => {
         <div>
           <section
             className={`h-cover flex justify-center gap-10 ${
-              isSearchBoxOpen && "blur-3xl fixed"
+              searchKeywords.length > 0 && "blur-3xl fixed"
             }`}
           >
             <div className="w-full">
@@ -150,7 +157,24 @@ const HomePage = () => {
                                   key={index}
                                   transation={{ duration: 0.2, delay: 1 * 1 }}
                                 >
-                                  <BlogPostComponent item={item} />
+                                  <BlogPostComponent
+                                    banner={item.banner}
+                                    activity={item.activity}
+                                    tags={item.tags}
+                                    des={item.des}
+                                    title={item.title}
+                                    id={item.blog_id}
+                                    authorFullname={
+                                      item.author.personal_info.fullname
+                                    }
+                                    authorProfileImage={
+                                      item.author.personal_info.profile_img
+                                    }
+                                    authorUserName={
+                                      item.author.personal_info.username
+                                    }
+                                    publishedAt={item.publishedAt}
+                                  />
                                 </AnimationWrapper>
                               ))}
                               {blogs?.length !== 0 && !isMoreData && (

@@ -29,13 +29,21 @@ export const blogApi = createApi({
       }),
       providesTags: ["blog-data"],
     }),
-    getBlogs: builder.query({
-      query:()=> "/get/blogs",
-      providesTags: ["blog-data"],
-    }),
     getTrendingBlogs: builder.query({
-      query:()=> "/get/trending/blogs",
+      query: () => "/get/trending/blogs",
       providesTags: ["trending-blogs-data"],
+    }),
+    getBlogByID: builder.query({
+      query: (id) => ({
+        url: `/get/blog/${id}`,
+      }),
+      providesTags: ["blog-BY-id"],
+    }),
+    getBlogByBlogId: builder.query({
+      query: (blog_id) => ({
+        url: `/get/blog_id/${blog_id}`,
+      }),
+      providesTags: ["blog-By-Blog_id"],
     }),
     getBlogsByCategoey: builder.mutation({
       query: (tags) => ({
@@ -53,9 +61,34 @@ export const blogApi = createApi({
       }),
       providesTags: ["blog"],
     }),
-    
-    
+
+    searchApi: builder.mutation({
+      query: (data) => ({
+        url: "/get/search",
+        method: "POST",
+        body: data,
+      }),
+      providesTags: ["blog-search"],
+    }),
+    likeBlog: builder.mutation({
+      query: (blogId) => ({
+        url: "/like",
+        method: "POST",
+        body: blogId,
+      }),
+      providesTags: ["blog-like"],
+    }),
   }),
 });
 
-export const { useCreateBlogMutation, useGetBlogsQuery, useGetTrendingBlogsQuery, useGetBlogsByCategoeyMutation, useGetBlogsMutation } = blogApi;
+export const {
+  useCreateBlogMutation,
+  useGetBlogsQuery,
+  useGetTrendingBlogsQuery,
+  useGetBlogsByCategoeyMutation,
+  useGetBlogsMutation,
+  useSearchApiMutation,
+  useGetBlogByIDQuery,
+  useGetBlogByBlogIdQuery,
+  useLikeBlogMutation
+} = blogApi;

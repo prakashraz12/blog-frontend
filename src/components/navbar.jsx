@@ -5,7 +5,13 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useEffect } from "react";
 import UseNavigationPanel from "./useNavigationPanel";
-const Navbar = ({ handleSearch, isSearchBoxOpen, setIsSearchBoxOpen }) => {
+import SearchViewComponent from "./searchViewComponent";
+const Navbar = ({
+  isSearchBoxOpen,
+  setIsSearchBoxOpen,
+  searchKeywords,
+  handleSearch,
+}) => {
   const auth = useSelector((state) => state.auth.sessionId);
   const [userPanelView, setUserPanelView] = useState(false);
 
@@ -49,49 +55,9 @@ const Navbar = ({ handleSearch, isSearchBoxOpen, setIsSearchBoxOpen }) => {
           />
           <i className="fi fi-rr-search absolute right-[10%] md:pointer-events-none md:left-5 top-1/2 -translate-y-1/2 text-xl text-dark-grey hidden md:block"></i>
         </div>
-       {
-        isSearchBoxOpen && (
-          <div className="w-full  absolute  mt-2 rounded bg-grey p-2 min-h-full">
-          <div className="flex justify-end p-3">
-            <button>
-              <i className="fi fi-br-cross"></i>
-            </button>
-          </div>
-          <div>
-            <p className="text-xl">Showing results for "Progamming...."</p>
-          </div>
-
-          <div className="p-2">
-            <Link
-              to={"/blogs/id"}
-              className="flex  rounded-sm gap-8 items-center border-grey bg-white mb-3 border-b-2 pb-2"
-            >
-              <div className="w-full p-4">
-                <div className="flex gap-2 items-center mb-6 ">
-                  <img
-                    src={userData.profile_img}
-                    alt="profile_img"
-                    className="w-6 h-6 rounded-full"
-                  />
-                  <p className="line-clamp-1">
-                    {"Prakash"} @ {userData.user_name}
-                  </p>
-                  <p className="min-w-fit">{}</p>
-                </div>
-                <h1 className="blog-title">{"Ai"}</h1>
-              </div>
-              <div className="h-28 aspect-square bg-grey">
-                <img
-                  src={userData.profile_img}
-                  alt="banner_img"
-                  className="w-full h-full aspect-square object-cover"
-                />
-              </div>
-            </Link>
-          </div>
-        </div>
-        )
-       }
+        {searchKeywords.length > 0 && (
+          <SearchViewComponent searchKeyWords={searchKeywords} />
+        )}
       </div>
 
       <div className="flex items-center gap-3 md:gap-6 ml-auto">

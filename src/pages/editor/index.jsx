@@ -7,7 +7,6 @@ import { useState } from "react";
 import { useUploadImageMutation } from "../../service/api/cloudinaryUpload.service";
 import { useEffect } from "react";
 import { useFormik } from "formik";
-import EditorJS from "@editorjs/editorjs";
 import toast from "react-hot-toast";
 import BlogPublishForm from "../../components/form/blogPublish.form";
 import logo from "../../imgs/logo.png";
@@ -24,13 +23,12 @@ const validationSchema = Yup.object({
 
 const EditorPage = () => {
   const navigate = useNavigate();
-
   const [bannerImage, setBannerImage] = useState(null);
   const [textEditor, setTextEditor] = useState({ isReady: false });
   const [editorMode, setEditorMode] = useState("editor");
   const [blogType, setBlogType] = useState("publish");
   //
-  const [imageUplaod, { isLoading: imageUploading, isSuccess, status }] =
+  const [imageUplaod, { isLoading: imageUploading, isSuccess }] =
     useUploadImageMutation();
   const [
     blogData,
@@ -43,7 +41,7 @@ const EditorPage = () => {
       banner: "",
       des: "",
       tags: [],
-      content: [],
+      content: "",
       draft: blogType === "publish" ? false : true,
     },
     validationSchema: validationSchema,
@@ -104,16 +102,6 @@ const EditorPage = () => {
     };
   }, [imageUploading, isSuccess]);
 
-  useEffect(() => {
-    setTextEditor(
-      new EditorJS({
-        holder: "text-editor",
-        data: blogForm.values.content,
-        tools: tools,
-        placeholder: "What's On Your Mind?",
-      })
-    );
-  }, []);
 
   const handlePublish = () => {
     if (!blogForm.values.banner.length) {
@@ -124,15 +112,10 @@ const EditorPage = () => {
       return toast.error("Please Write Title");
     }
 
-    if (textEditor.isReady) {
-      textEditor.save().then((data) => {
-        if (data.blocks.length) {
-          blogForm.setFieldValue("content", [...blogForm.values.content, data]);
-        }
-      });
-      setEditorMode("publish");
+    if (!blogForm.values.content.length) {
+      return toast.error("Please write some content");
     } else {
-      toast.error("Please write some content");
+      setEditorMode("publish");
     }
   };
 
@@ -165,7 +148,6 @@ const EditorPage = () => {
         <BlogPublishForm
           blogForm={blogForm}
           handleBlogSaveToDraft={handleBlogSaveToDraft}
-
           handlePublishPageClose={handlePublishPageClose}
         />
       )}
