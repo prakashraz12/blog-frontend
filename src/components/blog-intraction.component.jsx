@@ -8,6 +8,8 @@ const BlogIntractionsComponent = ({
   authorId,
   blog_id,
   likedLength,
+  commentLength,
+  setCommentToggle,
 }) => {
   const [isLiked, setIsLiked] = useState(false);
   const auth = useSelector((state) => state.auth.sessionId);
@@ -24,7 +26,6 @@ const BlogIntractionsComponent = ({
     }
   };
 
-  console.log(blogDetails?.total_likes?.includes(id));
   useEffect(() => {
     if (blogDetails?.total_likes?.includes(id)) {
       setIsLiked(true);
@@ -48,13 +49,15 @@ const BlogIntractionsComponent = ({
             )}
           </button>
           <p className="text-xl text-dark-grey">{likedCount || likedLength}</p>
-
-          <button className="w-10 h-10 rounded-full flex item-center justify-center bg-gray/80">
+          <button
+            className="w-10 h-10 rounded-full flex item-center justify-center bg-gray/80"
+            onClick={() => {
+              setCommentToggle((prev) => !prev);
+            }}
+          >
             <i className="fi fi-rr-comment"></i>
           </button>
-          <p className="text-xl text-dark-grey">
-            {blogDetails?.total_comments}
-          </p>
+          <p className="text-xl text-dark-grey">{commentLength}</p>
           <button className="w-10 h-10 rounded-full flex item-center justify-center bg-gray/80">
             <i className="fi fi-rr-book-alt"></i>{" "}
           </button>

@@ -42,7 +42,7 @@ const HomePage = () => {
 
   const fetchBlogsByCategory = useCallback(
     async (clickedCategory) => {
-      const response = await tags({ tags: clickedCategory });
+      const response = await tags({ category: clickedCategory });
       if (response.data && response.data.code === 200) {
         setCategoriedblogs((categorieblogs) => [
           ...categorieblogs,
@@ -59,7 +59,7 @@ const HomePage = () => {
   );
 
   const handlefetchBlogByCategories = (category) => {
-    const clickedCategory = category.toLowerCase();
+    const clickedCategory = category;
     if (pageState === clickedCategory) {
       setPageState("home");
       setBlogMode("blog");
@@ -78,20 +78,17 @@ const HomePage = () => {
     }
   }, [trendingBlogsIsSucess, trendingBlogsArray]);
 
-  useEffect(() => {
-    if (isSuccess && data.code === 200) {
+  const fetchBlogs = useCallback(async () => {
+    const response = await getBlogs({ page: page });
+    if (response?.data?.code === 200) {
       if (pageState === "home") {
-        setBlogs((blogs) => [...blogs, ...data?.data]);
+        setBlogs((blogs) => [...blogs, ...response?.data?.data]);
       }
-      if (data.data.length === 0) {
+      if (response?.data?.length === 0) {
         setHasMoreData(false);
         setIsMoreData(false);
       }
     }
-  }, [isSuccess, data, pageState]);
-
-  const fetchBlogs = useCallback(async () => {
-    await getBlogs({ page: page, searchValue: searchValue });
   }, [page, pageState, setPage, setPageState, searchValue, setSearchValue]);
 
   const loadMore = () => {
@@ -112,6 +109,9 @@ const HomePage = () => {
   };
 
   console.log(blogs);
+  // useEffect(() => {
+  //   fetchBlogs();
+  // }, []);
   return (
     <>
       <Navbar
@@ -148,62 +148,73 @@ const HomePage = () => {
                     <>
                       {pageState === "home" ? (
                         <>
-                          {blogs?.length === 0 ? (
+                          {blogs?.length === 0 && !isMoreData && (
                             <NoDataMessage message={NoDataMessageStatus} />
-                          ) : (
-                            <>
-                              {blogs?.map((item, index) => (
-                                <AnimationWrapper
-                                  key={index}
-                                  transation={{ duration: 0.2, delay: 1 * 1 }}
-                                >
-                                  <BlogPostComponent
-                                    banner={item.banner}
-                                    activity={item.activity}
-                                    tags={item.tags}
-                                    des={item.des}
-                                    title={item.title}
-                                    id={item.blog_id}
-                                    authorFullname={
-                                      item.author.personal_info.fullname
-                                    }
-                                    authorProfileImage={
-                                      item.author.personal_info.profile_img
-                                    }
-                                    authorUserName={
-                                      item.author.personal_info.username
-                                    }
-                                    publishedAt={item.publishedAt}
-                                  />
-                                </AnimationWrapper>
-                              ))}
-                              {blogs?.length !== 0 && !isMoreData && (
-                                <NoDataMessage
-                                  message={"No More Blogs Published."}
-                                />
-                              )}
-                            </>
                           )}
-                        </>
-                      ) : (
-                        <>
-                          {categorieblogs.length > 0 ? (
-                            <>
-                              {categorieblogs.map((item, index) => (
-                                <AnimationWrapper
-                                  key={index}
-                                  transation={{ duration: 0.2, delay: 1 * 1 }}
-                                >
-                                  <BlogPostComponent item={item} />
-                                </AnimationWrapper>
-                              ))}
-                              {isMoreData && <Loader />}
-                            </>
-                          ) : (
+                          {blogs?.map((item, index) => (
+                            <AnimationWrapper
+                              key={index}
+                              transation={{ duration: 0.2, delay: 1 * 1 }}
+                            >
+                              <BlogPostComponent
+                                category={item?.category}
+                                banner={item.banner}
+                                activity={item.activity}
+                                tags={item.tags}
+                                des={item.des}
+                                title={item.title}
+                                id={item.blog_id}
+                                authorFullname={
+                                  item.author.personal_info.fullname
+                                }
+                                authorProfileImage={
+                                  item.author.personal_info.profile_img
+                                }
+                                authorUserName={
+                                  item.author.personal_info.username
+                                }
+                                publishedAt={item.publishedAt}
+                              />
+                            </AnimationWrapper>
+                          ))}
+                          {!isMoreData && (
                             <NoDataMessage
                               message={"No More Blogs Published."}
                             />
                           )}
+                        </>
+                      ) : (
+                        <>
+                             {categorieblogs?.length === 0 && !isMoreData && (
+                        <NoDataMessage message={NoDataMessageStatus} />
+                      )}
+                      {categorieblogs?.map((item, index) => (
+                        <AnimationWrapper
+                          key={index}
+                          transation={{ duration: 0.2, delay: 1 * 1 }}
+                        >
+                          <BlogPostComponent
+                            category={item?.category}
+                            banner={item.banner}
+                            activity={item.activity}
+                            tags={item.tags}
+                            des={item.des}
+                            title={item.title}
+                            id={item.blog_id}
+                            authorFullname={
+                              item.author.personal_info.fullname
+                            }
+                            authorProfileImage={
+                              item.author.personal_info.profile_img
+                            }
+                            authorUserName={
+                              item.author.personal_info.username
+                            }
+                            publishedAt={item.publishedAt}
+                          />
+                        </AnimationWrapper>
+                      ))}
+                      {blogs.length !== 0 && !isMoreData && <Loader />}
                         </>
                       )}
                     </>
@@ -244,8 +255,7 @@ const HomePage = () => {
                     {blogCategories.map((item, index) => (
                       <button
                         className={`tag ${
-                          pageState === item.toLowerCase() &&
-                          "bg-black text-white"
+                          pageState === item && "bg-twitter text-white"
                         }`}
                         key={index}
                         onClick={() => {
@@ -260,7 +270,8 @@ const HomePage = () => {
 
                 <div>
                   <h1 className="font-medium text-xl mb-8">
-                    Trending <i className="fi fi-rr-arrow-trend-up"></i>
+                    Trending{" "}
+                    <i className="fi fi-rr-arrow-trend-up text-twitter"></i>
                   </h1>
 
                   {isTrendingBlogLoading ? (

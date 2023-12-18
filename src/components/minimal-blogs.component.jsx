@@ -27,9 +27,7 @@ const TrendingBlogsComponent = ({ item, i }) => {
           <p className="min-w-fit">{getDay(publishedAt)}</p>
         </div>
 
-        <h1 className="blog-title">
-{title}
-        </h1>
+        <h1 className="blog-title">{title}</h1>
       </div>
     </Link>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import AnimationWrapper from "../animation/animation.wrapper";
 import { blogTextAreaLimit } from "./form.config";
 import TagsComponent from "../tags.component";
+import { blogCategories } from "../../config/constant";
 
 const BlogPublishForm = ({
   blogForm,
@@ -36,7 +37,7 @@ const BlogPublishForm = ({
     blogForm.setFieldValue("tags", [...updatedTags]);
   };
 
-  console.log(blogForm.errors);
+  console.log(blogForm);
   return (
     <AnimationWrapper>
       <section className="w-screen min-h-screen grid items-center lg:grid-cols-2 py-16 lg:gap-4">
@@ -118,6 +119,37 @@ const BlogPublishForm = ({
           {blogForm.touched.tags && Boolean(blogForm.errors.tags) && (
             <p className="text-xl text-red">{blogForm.errors.tags}</p>
           )}
+          <br />
+          <label
+            for="blog_category"
+            class="block mb-2  text-gray-900 dark:text-white"
+          >
+            Category
+          </label>
+          <div className="input-box pl-2">
+            <select
+              value={blogForm.values.category}
+              name="category"
+              onBlur={blogForm.handleBlur}
+              onChange={(e) => {
+                blogForm.setFieldValue("category", e.target.value);
+              }}
+              id="blog_category"
+              class="bg-gray-50 border border-gray-300 text-gray-900   focus:bg-white input-box rounded-sm outline-none focus:ring-blue-500 focus:border-blue-500 block w-full pl-4 pr-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 bg-white "
+            >
+              <option>Select</option>
+
+              {blogCategories.length > 0 &&
+                blogCategories?.map((item, index) => (
+                  <option key={index} value={item}>
+                    {item}
+                  </option>
+                ))}
+            </select>
+            {blogForm.touched.category && Boolean(blogForm.errors.category) && (
+              <p className="text-xl text-red">{blogForm.errors.category}</p>
+            )}
+          </div>
           <br />
           <div className="flex gap-2 ">
             <button className="btn-dark px-8" onClick={blogForm.handleSubmit}>

@@ -6,8 +6,11 @@ import AnimationWrapper from "../../components/animation/animation.wrapper";
 import { getDay } from "../../utils/date-formater.utils";
 import BlogIntractionsComponent from "../../components/blog-intraction.component";
 import BlogContent from "../../components/blog-content.compoent";
+import CommentContainer from "../../components/comment.component";
 
 const BlogPage = () => {
+  
+  const[isCommentToggle, setCommentToggle] = useState(false);
   const [blogDetails, setBogDetils] = useState({});
   const { id } = useParams();
   const { data, isSuccess, isLoading, isError } = useGetBlogByBlogIdQuery(id);
@@ -17,8 +20,7 @@ const BlogPage = () => {
       setBogDetils(data?.data);
     }
   }, [data, isSuccess]);
-
-  console.log(blogDetails)
+console.log(blogDetails)
   return (
     <>
       {isLoading ? (
@@ -26,6 +28,7 @@ const BlogPage = () => {
       ) : isSuccess ? (
         <>
           <AnimationWrapper>
+            <CommentContainer isCommentToggle={isCommentToggle} setCommentToggle={setCommentToggle} blog_id={blogDetails?._id}/>
             <div className="max-w-[900px] center py-10 ma-lg:px-[5vw]">
               <img
                 src={blogDetails?.banner}
@@ -59,7 +62,14 @@ const BlogPage = () => {
                 </div>
               </div>
 
-              <BlogIntractionsComponent blogDetails={blogDetails.activity} authorId={blogDetails?.author?._id} blog_id={blogDetails?._id} likedLength={blogDetails?.activity?.total_likes?.length} />
+              <BlogIntractionsComponent
+              setCommentToggle={setCommentToggle}
+                blogDetails={blogDetails.activity}
+                authorId={blogDetails?.author?._id}
+                blog_id={blogDetails?._id}
+                commentLength={blogDetails?.comments?.length}
+                likedLength={blogDetails?.activity?.total_likes?.length}
+              />
 
               <div className="m-12 font-gelasio blog-page-content">
                 {blogDetails?.content?.map((content, index) => (

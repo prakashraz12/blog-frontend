@@ -13,18 +13,21 @@ import logo from "../../imgs/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import { useCreateBlogMutation } from "../../service/api/blogApi.service";
+import { blogCategories } from "../../config/constant";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),
   banner: Yup.string().required("Banner Image is required"),
   des: Yup.string().required("Description is reqiured"),
   tags: Yup.array().min(5).required("Minimun 5 tages required."),
+  category: Yup.string()
+    .oneOf(blogCategories.map((values) => values))
+    .required("Category Must be Required"),
 });
 
 const EditorPage = () => {
   const navigate = useNavigate();
   const [bannerImage, setBannerImage] = useState(null);
-  const [textEditor, setTextEditor] = useState({ isReady: false });
   const [editorMode, setEditorMode] = useState("editor");
   const [blogType, setBlogType] = useState("publish");
   //
@@ -42,6 +45,7 @@ const EditorPage = () => {
       des: "",
       tags: [],
       content: "",
+      category: "",
       draft: blogType === "publish" ? false : true,
     },
     validationSchema: validationSchema,
@@ -101,7 +105,6 @@ const EditorPage = () => {
       }
     };
   }, [imageUploading, isSuccess]);
-
 
   const handlePublish = () => {
     if (!blogForm.values.banner.length) {

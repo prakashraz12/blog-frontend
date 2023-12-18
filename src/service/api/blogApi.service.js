@@ -2,7 +2,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const getBearerToken = () => {
-  const session_data = sessionStorage.getItem("authId") || null;
+  const session_data = localStorage.getItem("authId") || null;
   const { access_token } = JSON.parse(session_data);
   return access_token;
 };

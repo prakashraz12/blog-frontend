@@ -6,6 +6,7 @@ import authReducer from "./service/slices/app.slice";
 import { cloudinaryApi } from "./service/api/cloudinaryUpload.service";
 import { blogApi } from "./service/api/blogApi.service";
 import { userApi } from "./service/api/userApi";
+import { commentApi } from "./service/api/commentApi";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     [blogApi.reducerPath]: blogApi.reducer,
     [cloudinaryApi.reducerPath]: cloudinaryApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
+    [commentApi.reducerPath]:commentApi.reducer,
     auth: authReducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -20,7 +22,8 @@ export const store = configureStore({
       authApi.middleware,
       cloudinaryApi.middleware,
       blogApi.middleware,
-      userApi.middleware
+      userApi.middleware,
+      commentApi.middleware
     ),
 });
 setupListeners(store.dispatch);

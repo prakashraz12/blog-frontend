@@ -5,11 +5,7 @@ import AnimationWrapper from "./animation/animation.wrapper";
 import defaultBanner from "../imgs/blog banner.png";
 import QuillEditor from "./text-editor";
 
-const BlogEditor = ({
-  blogForm,
-  handleBannerChnage,
-  handlePublish
-}) => {
+const BlogEditor = ({ blogForm, handleBannerChnage, handlePublish }) => {
   //
 
   return (
@@ -29,7 +25,7 @@ const BlogEditor = ({
       <AnimationWrapper>
         <section>
           <div className="mx-auto max-w-[900px] w-full">
-            <div className="reletive aspect-video hover:opacity-80 border-4 bg-white border-grey">
+            <div className="reletive aspect-video hover:opacity-80 border-4 bg-white border-grey border-dashed">
               <label htmlFor="uploadBanner">
                 <img
                   src={blogForm.values.banner || defaultBanner}
@@ -49,16 +45,14 @@ const BlogEditor = ({
               name="title"
               id=""
               cols="30"
-              rows="10"
               value={blogForm.values.title}
               onChange={blogForm.handleChange}
               placeholder="Blog Title"
-              className="text-4xl font-medium w-full h-20 outline-none resize-none mt-10 leading-tight placeholder:opacity-40"
+              className="text-4xl font-medium w-full h-full outline-none resize-none mt-10 leading-tight placeholder:opacity-40"
             ></textarea>
 
             <hr className="w-full opacity-10 my-5" />
-            <QuillEditor blogForm={blogForm}/>
-
+            <QuillEditor blogForm={blogForm} />
           </div>
         </section>
       </AnimationWrapper>

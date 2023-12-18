@@ -3,16 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 export const authSlice = createSlice({
     name: "auth",
     initialState: {
-      sessionId: sessionStorage.getItem("authId") || null
+      sessionId: localStorage.getItem("authId") || null
  
     },
     reducers: {
         setSessionId: (state, action) => {
             state.sessionId = action.payload;
-            sessionStorage.setItem("authId", action.payload)
+            localStorage.setItem("authId", action.payload)
         },
         signOut:(state,action)=>{
-            sessionStorage.removeItem("authId");
+            localStorage.removeItem("authId");
             state.sessionId = null
         }
        
