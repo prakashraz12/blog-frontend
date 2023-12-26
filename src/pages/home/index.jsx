@@ -15,8 +15,10 @@ import Loader from "../../components/loader.component";
 import NoDataMessage from "../../components/noDataMessage.component";
 import { NoDataMessageStatus, NoTrendingBlogsMessage } from "../../constant";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useSelector } from "react-redux";
 
-const HomePage = () => {
+const HomePage = ({notification}) => {
+  const userActivity = useSelector((state)=>state.userActivity.userData.recentActivities) || []
   const [blogs, setBlogs] = useState([]);
   const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(false);
   const [categorieblogs, setCategoriedblogs] = useState([]);
@@ -79,7 +81,7 @@ const HomePage = () => {
   }, [trendingBlogsIsSucess, trendingBlogsArray]);
 
   const fetchBlogs = useCallback(async () => {
-    const response = await getBlogs({ page: page });
+    const response = await getBlogs({ page: page, categories:userActivity });
     if (response?.data?.code === 200) {
       if (pageState === "home") {
         setBlogs((blogs) => [...blogs, ...response?.data?.data]);
@@ -108,15 +110,12 @@ const HomePage = () => {
     setSearchKeywords(e.target.value);
   };
 
-  console.log(blogs);
-  // useEffect(() => {
-  //   fetchBlogs();
-  // }, []);
   return (
     <>
       <Navbar
         searchKeywords={searchKeywords}
         handleSearch={handleSearchBar}
+        notification={notification}
         isSearchBoxOpen={isSearchBoxOpen}
         setIsSearchBoxOpen={setIsSearchBoxOpen}
       />
@@ -156,6 +155,7 @@ const HomePage = () => {
                               key={index}
                               transation={{ duration: 0.2, delay: 1 * 1 }}
                             >
+                              {console.log(item)}
                               <BlogPostComponent
                                 category={item?.category}
                                 banner={item.banner}
@@ -173,7 +173,7 @@ const HomePage = () => {
                                 authorUserName={
                                   item.author.personal_info.username
                                 }
-                                publishedAt={item.publishedAt}
+                                publishedAt={item.createdAt}
                               />
                             </AnimationWrapper>
                           ))}
@@ -210,7 +210,7 @@ const HomePage = () => {
                             authorUserName={
                               item.author.personal_info.username
                             }
-                            publishedAt={item.publishedAt}
+                            publishedAt={item.createdAt}
                           />
                         </AnimationWrapper>
                       ))}

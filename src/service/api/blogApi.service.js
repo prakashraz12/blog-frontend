@@ -90,5 +90,5 @@ export const {
   useSearchApiMutation,
   useGetBlogByIDQuery,
   useGetBlogByBlogIdQuery,
-  useLikeBlogMutation
+  useLikeBlogMutation,
 } = blogApi;

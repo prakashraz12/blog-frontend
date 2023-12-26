@@ -125,7 +125,7 @@
   display: none;
 }
 
-.backdrop_filter{
-    backdrop-filter: blur(10px);
-    background-color: red;
+body{
+    scroll-behavior: smooth;
 }
+

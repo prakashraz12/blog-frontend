@@ -9,7 +9,7 @@ const TrendingBlogsComponent = ({ item, i }) => {
     author: {
       personal_info: { fullname, username, profile_img },
     },
-    publishedAt,
+    createdAt,
   } = item;
   return (
     <Link to={`/blog/${id}`} className="flex gap-5 mb-4">
@@ -24,7 +24,7 @@ const TrendingBlogsComponent = ({ item, i }) => {
           <p className="line-clamp-1">
             {fullname} @ {username}
           </p>
-          <p className="min-w-fit">{getDay(publishedAt)}</p>
+          <p className="min-w-fit">{getDay(createdAt)}</p>
         </div>
 
         <h1 className="blog-title">{title}</h1>

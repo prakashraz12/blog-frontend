@@ -23,7 +23,7 @@ const SearchViewComponent = ({ searchKeyWords }) => {
     }
   }, [isSuccess, data]);
   return (
-    <div className="w-full  absolute  mt-2 rounded bg-grey p-2 min-h-full">
+    <div className="w-[350px] md:w-full  absolute  mt-2 rounded bg-grey p-2 min-h-full">
       <div className="flex justify-end p-3">
         <button>
           <i className="fi fi-br-cross"></i>

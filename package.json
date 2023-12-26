@@ -20,10 +20,13 @@
     "@editorjs/list": "^1.9.0",
     "@editorjs/marker": "^1.4.0",
     "@editorjs/quote": "^2.6.0",
+    "@emoji-mart/data": "^1.1.2",
+    "@emoji-mart/react": "^1.1.1",
     "@flaticon/flaticon-uicons": "^3.0.0",
     "@reduxjs/toolkit": "^1.9.7",
     "cloudinary": "^1.41.0",
     "cloudinary-react": "^1.8.1",
+    "emoji-mart": "^5.5.2",
     "firebase": "^10.7.0",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.5",
@@ -35,6 +38,7 @@
     "react-quill": "^2.0.0",
     "react-redux": "^8.1.3",
     "react-router-dom": "^6.20.0",
+    "socket.io-client": "^4.7.2",
     "yup": "^1.3.2"
   },
   "devDependencies": {

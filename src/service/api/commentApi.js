@@ -37,11 +37,45 @@ export const commentApi = createApi({
       }),
       providesTags: ["get-comment-all"],
     }),
-  
+    repliedComment: builder.mutation({
+      query: (blogdata) => ({
+        url: "/comment/replied",
+        method: "POST",
+        body: blogdata,
+      }),
+      providesTags: ["replied-comment"],
+    }),
+
+    getCommentById: builder.query({
+      query: (id) => ({
+        url: `/comment/id/${id}`,
+      }),
+      providesTags: ["comment-get-by-id"],
+    }),
+    deleteComment: builder.mutation({
+      query: (id) => ({
+        url: `/comment/delete`,
+        method: "POST",
+        body: id,
+      }),
+      providesTags: ["delte-comment"],
+    }),
+    likeComment: builder.mutation({
+      query: (commentId) => ({
+        url: `/comment/like`,
+        method: "POST",
+        body: commentId,
+      }),
+      providesTags:["comment-like"]
+    }),
   }),
 });
 
 export const {
- useWriteCommentMutation,
- useGetCommentsMutation
+  useWriteCommentMutation,
+  useGetCommentsMutation,
+  useRepliedCommentMutation,
+  useGetCommentByIdQuery,
+  useDeleteCommentMutation,
+  useLikeCommentMutation
 } = commentApi;

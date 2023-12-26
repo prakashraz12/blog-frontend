@@ -20,7 +20,7 @@ const BlogPage = () => {
       setBogDetils(data?.data);
     }
   }, [data, isSuccess]);
-console.log(blogDetails)
+console.log(blogDetails?.author?._id)
   return (
     <>
       {isLoading ? (
@@ -28,7 +28,7 @@ console.log(blogDetails)
       ) : isSuccess ? (
         <>
           <AnimationWrapper>
-            <CommentContainer isCommentToggle={isCommentToggle} setCommentToggle={setCommentToggle} blog_id={blogDetails?._id}/>
+            <CommentContainer isCommentToggle={isCommentToggle} setCommentToggle={setCommentToggle} blog_id={blogDetails?._id} authorId={blogDetails.author?._id} />
             <div className="max-w-[900px] center py-10 ma-lg:px-[5vw]">
               <img
                 src={blogDetails?.banner}

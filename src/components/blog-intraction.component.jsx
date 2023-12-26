@@ -14,12 +14,12 @@ const BlogIntractionsComponent = ({
   const [isLiked, setIsLiked] = useState(false);
   const auth = useSelector((state) => state.auth.sessionId);
   const [likedCount, setLikeCount] = useState();
-  const [blogId, { isLoading, isSuccess }] = useLikeBlogMutation();
+  const [blogId] = useLikeBlogMutation();
 
   const { id } = JSON.parse(auth);
 
   const handleLikedUnliked = async () => {
-    const resposnse = await blogId({ blogId: blog_id });
+    const resposnse = await blogId({ blogId: blog_id, notificationType:"like", endUserId:authorId });
     if (resposnse?.data?.code === 200) {
       setLikeCount(resposnse?.data?.data?.length);
       setIsLiked(!isLiked);
