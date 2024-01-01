@@ -7,7 +7,7 @@ import {
   useGetTrendingBlogsQuery,
   useGetBlogsByCategoeyMutation,
   useGetBlogsMutation,
-} from "../../service/api/blogApi.service";
+} from "../../service/api/publicApi.service";
 import BlogPostComponent from "../../components/blogPost.component";
 import TrendingBlogsComponent from "../../components/minimal-blogs.component";
 import { blogCategories } from "../../config/constant";

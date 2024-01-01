@@ -14,7 +14,7 @@ const CommentField = ({ commentState }) => {
   return (
     <div className="flex gap-1 pb-7 border-b-2 border-grey">
       <img
-        src={profile_img}
+        src={profile_img || ""}
         alt="loged-in-profile-imgw"
         className="h-10 w-10 rounded-full object-cover"
       />

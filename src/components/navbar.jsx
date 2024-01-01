@@ -66,14 +66,16 @@ const Navbar = ({
         <SearchViewComponent/>
         </div> */}
       <div className="flex items-center gap-3 md:gap-6 ml-auto relative">
-        <a href={"/editor"} className="hidden md:flex gap-2 link">
-          <i className="fi fi-rr-file-edit"></i>
-          <p>Write</p>
-        </a>
+        {userData?.access_token && (
+          <a href={"/editor"} className="hidden md:flex gap-2 link">
+            <i className="fi fi-rr-file-edit"></i>
+            <p>Write</p>
+          </a>
+        )}
         <button className="md:hidden">
-        <i className="fi fi-rr-search text-xl font-medium"></i>
+          <i className="fi fi-rr-search text-xl font-medium"></i>
         </button>
-        
+
         {userData.access_token !== null ? (
           <>
             <Link>
@@ -91,7 +93,11 @@ const Navbar = ({
                 </div>
               </button>
             </Link>
-            {isNotificationOpen && <NotificationContainer setNotificationOpen={setNotificationOpen} />}
+            {isNotificationOpen && (
+              <NotificationContainer
+                setNotificationOpen={setNotificationOpen}
+              />
+            )}
             <div className="relative">
               <button className="w-12 h-12 mt-1 " onClick={handleShowUserPanel}>
                 <img

@@ -2,34 +2,15 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { baseUrl } from "../../config/constant";
 
-const getBearerToken = () => {
-  const session_data = localStorage.getItem("authId") || null;
-  const { access_token } = JSON.parse(session_data);
-  return access_token;
-};
 
-export const blogApi = createApi({
+export const publicApi = createApi({
   reducerPath: "blogApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${baseUrl}/api/v1/blog`,
-    prepareHeaders: (headers) => {
-      const token = getBearerToken();
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-    credentials: "include",
+   
   }),
   endpoints: (builder) => ({
-    createBlog: builder.mutation({
-      query: (blogData) => ({
-        url: "/create",
-        method: "POST",
-        body: blogData,
-      }),
-      providesTags: ["blog-data"],
-    }),
+   
     getTrendingBlogs: builder.query({
       query: () => "/get/trending/blogs",
       providesTags: ["trending-blogs-data"],
@@ -71,19 +52,10 @@ export const blogApi = createApi({
       }),
       providesTags: ["blog-search"],
     }),
-    likeBlog: builder.mutation({
-      query: (blogId) => ({
-        url: "/like",
-        method: "POST",
-        body: blogId,
-      }),
-      providesTags: ["blog-like"],
-    }),
   }),
 });
 
 export const {
-  useCreateBlogMutation,
   useGetBlogsQuery,
   useGetTrendingBlogsQuery,
   useGetBlogsByCategoeyMutation,
@@ -91,5 +63,4 @@ export const {
   useSearchApiMutation,
   useGetBlogByIDQuery,
   useGetBlogByBlogIdQuery,
-  useLikeBlogMutation,
-} = blogApi;
+} = publicApi;

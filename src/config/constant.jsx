@@ -7,3 +7,6 @@ export const blogCategories = [
   "Business and Entrepreneurship",
   "Love"
 ];
+
+
+export const baseUrl = "https://backend-service-kkgw.onrender.com"

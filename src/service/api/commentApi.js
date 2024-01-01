@@ -1,5 +1,6 @@
 // api.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { baseUrl } from "../../config/constant";
 
 const getBearerToken = () => {
   const session_data = localStorage.getItem("authId") || null;
@@ -10,7 +11,7 @@ const getBearerToken = () => {
 export const commentApi = createApi({
   reducerPath: "commentApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:4000/api/v1/blog",
+    baseUrl: `${baseUrl}/api/v1/blog`,
     prepareHeaders: (headers) => {
       const token = getBearerToken();
       if (token) {

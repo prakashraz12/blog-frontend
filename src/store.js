@@ -8,9 +8,11 @@ import { cloudinaryApi } from "./service/api/cloudinaryUpload.service";
 import { blogApi } from "./service/api/blogApi.service";
 import { userApi } from "./service/api/userApi";
 import { commentApi } from "./service/api/commentApi";
+import { publicApi } from "./service/api/publicApi.service";
 
 export const store = configureStore({
   reducer: {
+    [publicApi.reducerPath]:publicApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
     [blogApi.reducerPath]: blogApi.reducer,
     [cloudinaryApi.reducerPath]: cloudinaryApi.reducer,
@@ -25,7 +27,8 @@ export const store = configureStore({
       cloudinaryApi.middleware,
       blogApi.middleware,
       userApi.middleware,
-      commentApi.middleware
+      commentApi.middleware,
+      publicApi.middleware
     ),
 });
 setupListeners(store.dispatch);

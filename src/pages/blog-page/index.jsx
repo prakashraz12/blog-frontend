@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useGetBlogByBlogIdQuery } from "../../service/api/blogApi.service";
 import Loader from "../../components/loader.component";
 import AnimationWrapper from "../../components/animation/animation.wrapper";
 import { getDay } from "../../utils/date-formater.utils";
 import BlogIntractionsComponent from "../../components/blog-intraction.component";
 import BlogContent from "../../components/blog-content.compoent";
 import CommentContainer from "../../components/comment.component";
+import { useGetBlogByBlogIdQuery } from "../../service/api/publicApi.service";
 
 const BlogPage = () => {
   
@@ -20,7 +20,6 @@ const BlogPage = () => {
       setBogDetils(data?.data);
     }
   }, [data, isSuccess]);
-console.log(blogDetails?.author?._id)
   return (
     <>
       {isLoading ? (
