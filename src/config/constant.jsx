@@ -9,4 +9,4 @@ export const blogCategories = [
 ];
 
 
-export const baseUrl = "https://backend-service-kkgw.onrender.com"
+export const baseUrl = "https://backend-service-blog.onrender.com"
