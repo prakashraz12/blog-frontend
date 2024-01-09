@@ -7,10 +7,10 @@ import BlogIntractionsComponent from "../../components/blog-intraction.component
 import BlogContent from "../../components/blog-content.compoent";
 import CommentContainer from "../../components/comment.component";
 import { useGetBlogByBlogIdQuery } from "../../service/api/publicApi.service";
+import RelatedBlogs from "../../components/relatedBlogs.componet";
 
-const BlogPage = () => {
-  
-  const[isCommentToggle, setCommentToggle] = useState(false);
+const BlogPage = ({ isSearchActive }) => {
+  const [isCommentToggle, setCommentToggle] = useState(false);
   const [blogDetails, setBogDetils] = useState({});
   const { id } = useParams();
   const { data, isSuccess, isLoading, isError } = useGetBlogByBlogIdQuery(id);
@@ -20,6 +20,8 @@ const BlogPage = () => {
       setBogDetils(data?.data);
     }
   }, [data, isSuccess]);
+
+  console.log(data);
   return (
     <>
       {isLoading ? (
@@ -27,8 +29,17 @@ const BlogPage = () => {
       ) : isSuccess ? (
         <>
           <AnimationWrapper>
-            <CommentContainer isCommentToggle={isCommentToggle} setCommentToggle={setCommentToggle} blog_id={blogDetails?._id} authorId={blogDetails.author?._id} />
-            <div className="max-w-[900px] center py-10 ma-lg:px-[5vw]">
+            <CommentContainer
+              isCommentToggle={isCommentToggle}
+              setCommentToggle={setCommentToggle}
+              blog_id={blogDetails?._id}
+              authorId={blogDetails.author?._id}
+            />
+            <div
+              className={`max-w-[900px] center py-10 ma-lg:px-[5vw] ${
+                isSearchActive && "blur-3xl"
+              }`}
+            >
               <img
                 src={blogDetails?.banner}
                 alt="banner img"
@@ -62,7 +73,7 @@ const BlogPage = () => {
               </div>
 
               <BlogIntractionsComponent
-              setCommentToggle={setCommentToggle}
+                setCommentToggle={setCommentToggle}
                 blogDetails={blogDetails.activity}
                 authorId={blogDetails?.author?._id}
                 blog_id={blogDetails?._id}
@@ -77,6 +88,19 @@ const BlogPage = () => {
               </div>
             </div>
           </AnimationWrapper>
+          {!isSearchActive && (
+            <div className="bg-grey w-full">
+              <div className="max-w-[900px] center py-10 ma-lg:px-[5vw]">
+                <h1 className="text-2xl font-medium">Related Blogs</h1>
+                {blogDetails?.category && (
+                  <RelatedBlogs
+                    cat={blogDetails?.category}
+                    blogId={blogDetails?._id}
+                  />
+                )}
+              </div>
+            </div>
+          )}
         </>
       ) : isError ? (
         <h1>error</h1>

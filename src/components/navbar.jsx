@@ -58,7 +58,9 @@ const Navbar = ({
           <i className="fi fi-rr-search absolute right-[10%] md:pointer-events-none md:left-5 top-1/2 -translate-y-1/2 text-xl text-dark-grey hidden md:block"></i>
         </div>
         {searchKeywords.length > 0 && (
-          <SearchViewComponent searchKeyWords={searchKeywords} />
+          <SearchViewComponent
+            searchKeyWords={searchKeywords}
+          />
         )}
       </div>
       {/* <div className="absolute bottom-0">

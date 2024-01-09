@@ -22,8 +22,9 @@ const SearchViewComponent = ({ searchKeyWords }) => {
       setUpdatedData(data.data);
     }
   }, [isSuccess, data]);
+
   return (
-    <div className="w-[350px] md:w-full  absolute  mt-2 rounded bg-grey p-2 min-h-full">
+    <div className="w-[500px]   absolute  mt-2 rounded bg-grey p-2 min-h-full -z-50">
       <div className="flex justify-end p-3">
         <button>
           <i className="fi fi-br-cross"></i>
@@ -41,7 +42,7 @@ const SearchViewComponent = ({ searchKeyWords }) => {
           <div className="p-2" key={index}>
             <Link
               to={"/blogs/id"}
-              className="flex  rounded-sm gap-8 items-center border-grey bg-white mb-3 border-b-2 pb-2"
+              className="flex  rounded-sm gap-8 items-center  mb-3 pb-2"
             >
               <div className="w-full p-4">
                 <div className="flex gap-2 items-center mb-6 ">

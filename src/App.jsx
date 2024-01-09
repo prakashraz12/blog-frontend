@@ -10,28 +10,52 @@ import BlogPage from "./pages/blog-page";
 import SideNav from "./layout/sideNav.layout";
 import InputBlogCategory from "./components/input-blogs-category.component";
 import ChangePasswordComponent from "./components/changePassword.component";
+import MainLayout from "./layout/mainLayout";
 
 function App() {
+  const [isSearchActive, setIsSearchActive]= useState(false)
   const [isUserActivityOpen, setIsUserActivityOpen] = useState(false);
   const userActivity = useSelector(
     (state) => state.userActivity.userData.recentActivities
   );
   useEffect(() => {
     if (userActivity.length === 0) {
-      setIsUserActivityOpen(true)
+      setIsUserActivityOpen(true);
     }
   }, []);
   return (
     <Routes>
-      <Route path="/" element={isUserActivityOpen ? <InputBlogCategory setIsUserActivityOpen={setIsUserActivityOpen} /> : <HomePage/>} />
+      <Route path="/" element={<MainLayout setIsSearchActive={setIsSearchActive} />}>
+        <Route
+          index
+          element={
+            isUserActivityOpen ? (
+              <InputBlogCategory
+                setIsUserActivityOpen={setIsUserActivityOpen}
+              />
+            ) : (
+              <HomePage isSearchActive={isSearchActive} />
+            )
+          }
+        />
+        <Route path="/blog/:id" element={<BlogPage isSearchActive={isSearchActive} />} />
+      </Route>
       <Route path="/signup" element={<SignUpPage />} />
       <Route path="/signin" element={<SignInPage />} />
       <Route path="/editor" element={<EditorPage />} />
       <Route path="/user/:id" element={<UserProfilePage />} />
-      <Route path="/blog/:id" element={<BlogPage />} />
+
       <Route path="settings" element={<SideNav />}>
-        <Route path="edit-profile" element={<h1>Elemenbjzvxcvzxhjc zxchxzcvjhzcvjhxzvcjxhzcvhjvzxhcvjhjzxcjzchxvcxhzchxvchcxcvxzjhcvchvzxcvjcvzjxcvxcvt</h1>} />
-        <Route path="change-password" element={<ChangePasswordComponent/>} />
+        <Route
+          path="edit-profile"
+          element={
+            <h1>
+              Elemenbjzvxcvzxhjc
+              zxchxzcvjhzcvjhxzvcjxhzcvhjvzxhcvjhjzxcjzchxvcxhzchxvchcxcvxzjhcvchvzxcvjcvzjxcvxcvt
+            </h1>
+          }
+        />
+        <Route path="change-password" element={<ChangePasswordComponent />} />
       </Route>
     </Routes>
   );
